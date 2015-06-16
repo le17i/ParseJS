@@ -63,18 +63,19 @@
          if(!value || !precision) return "Invalid value";
 
          var v = value.toString();
+         v = v.replace(/\./g, parse.config.decimalSeparator);
 
          if(v.indexOf(parse.config.decimalSeparator) > -1) {
             var length = -((v.length - v.indexOf(parse.config.decimalSeparator)) - 1) + precision;
 
             if(length > 0) {
-               v = v.substring(0, (v.indexOf(parse.config.decimalSeparator) + 1) + precision);
-            }
-            else {
                var a = 0;
                for(a; a < length; a++) {
                   v = [v, "0"].join("");
                }
+            }
+            else {
+               v = v.substring(0, (v.indexOf(parse.config.decimalSeparator) + 1) + precision);
             }
          }
          else {
