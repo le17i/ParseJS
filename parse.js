@@ -3,7 +3,10 @@
    "use strict";
 
    var parse = function(value) {
-      return new parse.fn.init(value);
+      if(!(this instanceof parse)) return new parse(value);
+
+      this.value = value;
+      return this;
    };
 
    parse.config = {
@@ -18,21 +21,12 @@
       parse.config[key] = value;
    };
 
-   parse.fn = parse.prototype = {
-      init: function(value) {
-         this.value = value;
-         return this;
-      },
-      value: null
-   };
-
-   parse.fn.init.prototype = parse.prototype;
 
    //parse.fn.toDate = function(format) {
    //   return format;
    //};
 
-   parse.fn.toPercent = function(precision) {
+   parse.prototype.toPercent = function(precision) {
 
       var value = helpers.precisionNumber(this.value, precision);
       value = helpers.thousandsNumberSeparator(value);
@@ -40,14 +34,14 @@
       return [value, "%"].join("");
    };
 
-   parse.fn.toNumber = function(precision) {
+   parse.prototype.toNumber = function(precision) {
 
       var value = helpers.format.precision(this.value, precision);
 
       return helpers.format.thousand(value);
    };
 
-   parse.fn.toCurrency = function() {
+   parse.prototype.toCurrency = function() {
 
       var value = helpers.format.precision(this.value, 2);
       value = helpers.format.thousand(value);
