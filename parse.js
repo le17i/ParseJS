@@ -114,9 +114,12 @@ helpers.format = {
 };
 
 helpers.date = {
+   // List of date formats
    regex: [
       /(\d{2})[-|\/|\.](\d{2})[-|\/|\.](\d{4})/
    ],
+
+   // Try convert the value on date object. If failed, return false
    matchDate: function (value) {
 
       if(value === 'undefined') return false;
