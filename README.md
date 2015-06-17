@@ -10,7 +10,7 @@ parse(10.000).toCurrency();
    Any questions, see the [Issues](https://github.com/le17i/ParseJS/issues).
 
 ## Tests
-   First install the depedencies, then run **npm tests**:
+   First install the dependencies, then run **npm tests**:
 
 ```bash
 $ npm install
