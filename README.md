@@ -3,6 +3,7 @@ A library JS to format numbers and dates.
 
 ```js
 parse(10.000).toCurrency();
+// Returns R$10,00
 ```
 
 ## Tests
