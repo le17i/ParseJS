@@ -8,6 +8,7 @@ module.exports = function(grunt) {
       'src/tocurrency.js',
       'src/helpers/intro.js',
       'src/helpers/format.js',
+      'src/helpers/date.js',
       'src/exports.js'
    ];
 
@@ -39,10 +40,8 @@ module.exports = function(grunt) {
          }
       },
       watch: {
-         jshint: {
-            files: ['<%= jshint.files %>'],
-            tasks: ['concat', 'uglify', 'jshint', 'karma']
-         }
+         files: sourcesFiles,
+         tasks: ['concat', 'uglify', 'jshint', 'karma']
       }
    });
 
