@@ -40,7 +40,7 @@ module.exports = function(grunt) {
          }
       },
       watch: {
-         files: sourcesFiles,
+         files: ['src/**/*.js', 'tests/**/*.js'],
          tasks: ['concat', 'uglify', 'jshint', 'karma']
       }
    });
