@@ -1,7 +1,7 @@
 {
   "name": "ParseJS",
   "version": "1.0.0",
-  "description": "A library JS to format number and date.",
+  "description": "A library JS to format numbers and dates.",
   "main": "parse.js",
   "directories": {
     "test": "tests"
