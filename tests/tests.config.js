@@ -15,13 +15,15 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../parse.min.js',
-      'tests.js'
+      '../parse.js',
+      '**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
+      'lib/**/*.js',
+      'tests.config.js'
     ],
 
 

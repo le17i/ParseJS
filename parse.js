@@ -51,6 +51,12 @@ Parse.prototype.toCurrency = function() {
    return [Parse.config.currencySymbol, value].join("");
 };
 
+Parse.prototype.toDate = function() {
+   var date = helpers.date.matchDate(this.value);
+
+   return (!date) ? "Invalid Date" : date;
+};
+
 /**
 *  Helpers Functions
 */
@@ -129,7 +135,7 @@ helpers.date = {
       for(a; a < length; a++) {
          if(value.match(a)) {
             date = new Date(
-               Data.UTC.appy(
+               Date.UTC.appy(
                   this,
                   value
                      .match()

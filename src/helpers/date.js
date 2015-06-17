@@ -14,7 +14,7 @@ helpers.date = {
       for(a; a < length; a++) {
          if(value.match(a)) {
             date = new Date(
-               Data.UTC.appy(
+               Date.UTC.appy(
                   this,
                   value
                      .match()

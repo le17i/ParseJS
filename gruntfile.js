@@ -6,6 +6,7 @@ module.exports = function(grunt) {
       'src/tonumber.js',
       'src/topercent.js',
       'src/tocurrency.js',
+      'src/todate.js',
       'src/helpers/intro.js',
       'src/helpers/format.js',
       'src/helpers/date.js',
@@ -40,7 +41,7 @@ module.exports = function(grunt) {
          }
       },
       watch: {
-         files: ['src/**/*.js', 'tests/**/*.js'],
+         files: ['gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
          tasks: ['concat', 'uglify', 'jshint', 'karma']
       }
    });
