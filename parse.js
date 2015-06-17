@@ -5,7 +5,7 @@
    var parse = function(value) {
       if(!(this instanceof parse)) return new parse(value);
 
-      this.value = value;
+      this.value = value.toString();
       return this;
    };
 
@@ -21,15 +21,10 @@
       parse.config[key] = value;
    };
 
-
-   //parse.fn.toDate = function(format) {
-   //   return format;
-   //};
-
    parse.prototype.toPercent = function(precision) {
 
-      var value = helpers.precisionNumber(this.value, precision);
-      value = helpers.thousandsNumberSeparator(value);
+      var value = helpers.format.precision(this.value, precision);
+      value = helpers.format.thousand(value);
 
       return [value, "%"].join("");
    };
@@ -62,8 +57,7 @@
       precision: function(value, precision) {
          if(!value || !precision) return "Invalid value";
 
-         var v = value.toString();
-         v = v.replace(/\./g, parse.config.decimalSeparator);
+         var v = value.replace(/\./g, parse.config.decimalSeparator);
 
          if(v.indexOf(parse.config.decimalSeparator) > -1) {
             var length = -((v.length - v.indexOf(parse.config.decimalSeparator)) - 1) + precision;
@@ -93,7 +87,7 @@
       thousand: function(value) {
          if(!value) return "Invalid value";
 
-         var v = value.toString();
+         var v = value;
          var replace = ["$1", parse.config.thousandSeparator].join("");
 
          if(v.indexOf(parse.config.decimalSeparator) > -1) {
