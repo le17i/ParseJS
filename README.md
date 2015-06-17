@@ -3,7 +3,7 @@ A library JS to format numbers and dates.
 
 ```js
 parse(10.000).toCurrency();
-´´´
+```
 
 ## Tests
    First install the depedencies, then run ´npm tests´:
@@ -11,7 +11,7 @@ parse(10.000).toCurrency();
 ```bash
 $ npm install
 $ npm tests
-´´´
+```
 
 ## License
    [MIT](LICENSE)
