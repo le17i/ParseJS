@@ -1,0 +1,22 @@
+{
+  "name": "ParseJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "parse.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/le17i/ParseJS.git"
+  },
+  "author": "Leandro Dias <ledias.17@gmail> (https://github.com/le17i)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/le17i/ParseJS/issues"
+  },
+  "homepage": "https://github.com/le17i/ParseJS"
+}

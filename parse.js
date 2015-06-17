@@ -1,4 +1,4 @@
-;(function(window, document, undefined) {
+;(function(global) {
 
    "use strict";
 
@@ -104,6 +104,19 @@
       }
    };
 
-   window.parse = parse;
+   /**
+   *  Exports ParseJS
+   */
+   if(typeof module !== "undefined" && module.exports) {
+      module.exports = parse;
+   }
 
-})(window, document);
+   if(typeof define === 'function' && define.amd) {
+      define("parse", [], function() {
+         return parse;
+      })
+   }
+
+   global.parse = parse;
+
+}(typeof window !== "undefined" ? window : this));
