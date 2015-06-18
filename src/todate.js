@@ -1,7 +1,11 @@
 Parse.prototype.toDate = function() {
-   return helpers.date.matchDate(this.value);
+   return helpers.date.parse(this.value);
 };
 
 Parse.prototype.formatDate = function(format) {
-   return helpers.date.formatDate(format, this.value);
+   return helpers.date.format(format, this.value);
+};
+
+Parse.prototype.isDate = function() {
+   return helpers.date.parse(this.value) !== null ? true : false;
 };
