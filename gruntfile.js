@@ -14,35 +14,41 @@ module.exports = function(grunt) {
    ];
 
    grunt.initConfig({
-      pkg: grunt.file.readJSON('package.json'),
-      concat: {
-         dist: {
-            src: sourcesFiles,
-            dest: 'parse.js'
+      'pkg': grunt.file.readJSON('package.json'),
+      'concat': {
+         'dist': {
+            'src': sourcesFiles,
+            'dest': 'parse.js'
          }
       },
-      jshint: {
-         files: ['gruntfile.js', 'parse.js']
-      },
-      karma: {
-         unit: {
-            configFile: 'tests/tests.config.js'
+      'http-server': {
+         'dev': {
+            'port': 5000,
+            'root': '/apps/ParseJS/'
          }
       },
-      uglify: {
-         options: {
-            sourceMap: true,
-            sourceMapName: 'parse.map'
+      'jshint': {
+         'files': ['gruntfile.js', 'parse.js']
+      },
+      'karma': {
+         'unit': {
+            'configFile': 'tests/tests.config.js'
+         }
+      },
+      'uglify': {
+         'options': {
+            'sourceMap': true,
+            'sourceMapName': 'parse.map'
          },
-         dist: {
-            files: {
+         'dist': {
+            'files': {
                'parse.min.js' : ['<%= concat.dist.dest %>']
             }
          }
       },
-      watch: {
-         files: ['gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
-         tasks: ['concat', 'uglify', 'jshint', 'karma']
+      'watch': {
+         'files': ['gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
+         'tasks': ['concat', 'uglify', 'jshint', 'karma']
       }
    });
 
@@ -51,10 +57,12 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-contrib-jshint');
    grunt.loadNpmTasks('grunt-contrib-uglify');
    grunt.loadNpmTasks('grunt-contrib-watch');
+   grunt.loadNpmTasks('grunt-http-server');
    grunt.loadNpmTasks('grunt-karma');
 
    // Register tasks
    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'karma', 'watch']);
    grunt.registerTask('dist', ['concat', 'uglify']);
    grunt.registerTask('tests', ['jshint', 'karma']);
+   grunt.registerTask('tests-client', ['http-server']);
 };
