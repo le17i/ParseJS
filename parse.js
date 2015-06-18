@@ -55,6 +55,10 @@ Parse.prototype.toDate = function() {
    return helpers.date.matchDate(this.value);
 };
 
+Parse.prototype.formatDate = function(format) {
+   return helpers.date.formatDate(format, this.value);
+};
+
 /**
 *  Helpers Functions
 */
@@ -147,7 +151,7 @@ helpers.date = {
             if(regex.format == 'dd-mm-yyyy') {
                dateArray = dateArray.reverse();
             }
-            
+
             date = new Date(dateArray[0], --dateArray[1], dateArray[2]);
 
             break;
@@ -156,6 +160,19 @@ helpers.date = {
 
       return date;
    },
+
+   // Transform the date object to format string
+   formatDate: function(format, value) {
+      var date = helpers.date.matchDate(value);
+
+      if(!date) return false;
+
+      var formatDate = format.replace(/dd/gi, date.getDate());
+      formatDate = formatDate.replace(/mm/gi, date.getMonth() + 1);
+      formatDate = formatDate.replace(/yyyy/gi, date.getFullYear());
+
+      return formatDate;
+   }
 };
 
 /**

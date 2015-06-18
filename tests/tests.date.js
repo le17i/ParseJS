@@ -32,5 +32,9 @@ describe("Date Tests", function() {
    });
 
    describe("Format date to string", function() {
+      it("Format date to dd.mm.yyyy", function() {
+         var date = parse("10/12/2014").formatDate("dd.mm.yyyy");
+         expect(date).toEqual("10.12.2014");
+      });
    });
 });
