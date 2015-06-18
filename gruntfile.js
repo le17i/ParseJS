@@ -55,6 +55,6 @@ module.exports = function(grunt) {
 
    // Register tasks
    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'karma', 'watch']);
-   grunt.registerTask('dist', ['concat', 'uglify', 'jshint', 'karma']);
+   grunt.registerTask('dist', ['concat', 'uglify']);
    grunt.registerTask('tests', ['jshint', 'karma']);
 };
