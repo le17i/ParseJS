@@ -167,9 +167,10 @@ helpers.date = {
 
       if(!date) return false;
 
-      var formatDate = format.replace(/dd/gi, date.getDate());
-      formatDate = formatDate.replace(/mm/gi, date.getMonth() + 1);
-      formatDate = formatDate.replace(/yyyy/gi, date.getFullYear());
+      var formatDate = format
+         .replace(/dd/gi, date.getDate())
+         .replace(/mm/gi, date.getMonth() + 1)
+         .replace(/yyyy/gi, date.getFullYear());
 
       return formatDate;
    }
