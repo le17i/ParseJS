@@ -27,10 +27,10 @@ $ npm tests
 ```
 
 ### Run tests on browser
-   Run **grunt tests-client**:
+   Run **npm tests-client**:
 
 ```bash
-$ grunt tests-client
+$ npm tests-client
 ```
    Then open the [URL to tests](http://localhost:5000/tests/)
 
