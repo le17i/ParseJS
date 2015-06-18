@@ -5,10 +5,10 @@ A library JS to format numbers and dates.
 // Parse to currency string. Returns 'R$10,00'
 parse(10.000).toCurrency();
 
-// Parse to percent string. Returns '10,00%'
+// Parse to percent string with two decimal places. Returns '10,00%'
 parse(10.000).toPercent(2);
 
-// Parse to number. Returns '10,00'
+// Parse to number string with two decimal places. Returns '10,00'
 parse(10.000).toNumber(2);
 
 // Parse to date object. Returns Wed Dec 10 2014
