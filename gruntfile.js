@@ -4,12 +4,14 @@ module.exports = function(grunt) {
       'src/intro.js',
       'src/core.js',
       'src/tonumber.js',
+      'src/tostring.js',
       'src/topercent.js',
       'src/tocurrency.js',
       'src/todate.js',
       'src/helpers/intro.js',
       'src/helpers/format.js',
       'src/helpers/date.js',
+      'src/helpers/number.js',
       'src/exports.js'
    ];
 

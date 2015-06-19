@@ -28,11 +28,14 @@ Parse.set = function(key, value) {
    parse.config[key] = value;
 };
 
-Parse.prototype.toNumber = function(precision) {
+Parse.prototype.toNumber = function() {
+   return helpers.number.parse(this.value);
+};
 
+Parse.prototype.toString = function(precision) {
+   
    var value = helpers.format.precision(this.value, precision);
-
-   return helpers.format.thousand(value);
+   return (value === null) ? "Invalid value" : helpers.format.thousand(value);
 };
 
 Parse.prototype.toPercent = function(precision) {
@@ -40,7 +43,7 @@ Parse.prototype.toPercent = function(precision) {
    var value = helpers.format.precision(this.value, precision);
    value = helpers.format.thousand(value);
 
-   return [value, "%"].join("");
+   return (value === null) ? "Invalid value" : [value, "%"].join("");
 };
 
 Parse.prototype.toCurrency = function() {
@@ -48,7 +51,7 @@ Parse.prototype.toCurrency = function() {
    var value = helpers.format.precision(this.value, 2);
    value = helpers.format.thousand(value);
 
-   return [Parse.config.currencySymbol, value].join("");
+   return (value === null) ? "Invalid value" : [Parse.config.currencySymbol, value].join("");
 };
 
 Parse.prototype.toDate = function() {
@@ -74,39 +77,15 @@ helpers.regex = {
 
 helpers.format = {
    precision: function(value, precision) {
-      if(!value || !precision) return "Invalid value";
+      if(!value || !precision) return null;
 
-      var v = value.replace(/\./g, Parse.config.decimalSeparator);
-
-      var a, length;
-
-      if(v.indexOf(Parse.config.decimalSeparator) > -1) {
-         length = -((v.length - v.indexOf(Parse.config.decimalSeparator)) - 1) + precision;
-
-         if(length > 0) {
-            a = 0;
-            for(a; a < length; a++) {
-               v = [v, "0"].join("");
-            }
-         }
-         else {
-            v = v.substring(0, (v.indexOf(Parse.config.decimalSeparator) + 1) + precision);
-         }
-      }
-      else {
-         v = [v, Parse.config.decimalSeparator].join("");
-
-         a = 0;
-         for(a; a < precision; a++) {
-            v = [v, "0"].join("");
-         }
-      }
-
+      var v = parseFloat(value).toFixed(precision);
+      v = v.replace(/\./g, ",");
       return v;
    },
 
    thousand: function(value) {
-      if(!value) return "Invalid value";
+      if(!value) return null;
 
       var v = value;
       var replace = ["$1", Parse.config.thousandSeparator].join("");
@@ -178,6 +157,17 @@ helpers.date = {
          .replace(/yyyy/gi, date.getFullYear());
 
       return formatDate;
+   }
+};
+
+helpers.number = {
+   parse: function(value) {
+      var number = value
+         .replace(/\./g, "")
+         .replace(/\,/g, ".")
+         .replace(/[a-z]|\s|(\/|\*|\-|\+|\,|\%|\$|\#|\@|\!|\(|\)|\_|\?)/gi, "");
+
+      return parseFloat(number);
    }
 };
 
