@@ -3,11 +3,11 @@ helpers.date = {
    regex: [
       {
          test: /(\d{2})[-|\/|\.](\d{2})[-|\/|\.](\d{4})/g,
-         replace: '$3-$2-$1T00:00:00-02:00'
+         replace: '$3-$2-$1'
       },
       {
          test:/(\d{4})[-|\/|\.](\d{2})[-|\/|\.](\d{2})/g,
-         replace: '$1-$2-$3T00:00:00-02:00'
+         replace: '$1-$2-$3'
       },
       {
          test:/\/Date\((-?\d+)\)\//g,
@@ -33,11 +33,15 @@ helpers.date = {
 
          if(value.match(regex.test)) {
 
-            replace = (regex.replace.indexOf("-") > -1) ?
-               value.replace(regex.test, regex.replace) : parseInt(value.replace(regex.test, regex.replace));
-
-            date = new Date(replace);
-
+            if(regex.replace.indexOf("-") > -1){
+               replace = value.replace(regex.test, regex.replace).split("-");
+               date = new Date(parseInt(replace[0]), parseInt(--replace[1]), parseInt(replace[2]));
+            }
+            else {
+               replace = parseInt(value.replace(regex.test, regex.replace));
+               date = new Date(replace);
+            }
+            
             break;
          }
       }
