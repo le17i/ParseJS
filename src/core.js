@@ -1,7 +1,7 @@
 var Parse = function(value) {
    if(!(this instanceof Parse)) return new Parse(value);
 
-   this.value = value.toString();
+   this.value = value;
    return this;
 };
 

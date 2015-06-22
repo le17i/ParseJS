@@ -46,6 +46,11 @@ describe("Date Tests", function() {
          var date = parse("10/02/2014").formatDate("dd.mm.yyyy");
          expect(date).toEqual("10.02.2014");
       });
+
+      it("Format date to dd.mm.yyyy, using a date object", function() {
+         var date = parse(new Date("2014", "01", "10")).formatDate("dd.mm.yyyy");
+         expect(date).toEqual("10.02.2014");
+      });
    });
 
    describe("Validates if is date format", function() {

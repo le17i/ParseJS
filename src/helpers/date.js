@@ -20,7 +20,13 @@ helpers.date = {
 
       if(value === 'undefined') return null;
 
+      if(value instanceof Date) {
+         return value;
+      }
+
       var date = null, replace, regex, a = 0, length = helpers.date.regex.length;
+
+      value = value.toString();
 
       for(a; a < length; a++) {
          regex = helpers.date.regex[a];
@@ -42,6 +48,7 @@ helpers.date = {
    // Transform the date object to format string
    format: function(format, value) {
       var date = helpers.date.parse(value);
+      console.log(date);
 
       if(!date) return false;
 

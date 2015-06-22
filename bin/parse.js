@@ -12,7 +12,7 @@
 var Parse = function(value) {
    if(!(this instanceof Parse)) return new Parse(value);
 
-   this.value = value.toString();
+   this.value = value;
    return this;
 };
 
@@ -80,6 +80,8 @@ helpers.format = {
    precision: function(value, precision) {
       if(!value || !precision) return null;
 
+      value = value.toString();
+
       var v = parseFloat(value).toFixed(precision);
       v = v.replace(/\./g, ",");
       return v;
@@ -88,7 +90,7 @@ helpers.format = {
    thousand: function(value) {
       if(!value) return null;
 
-      var v = value;
+      var v = value.toString();
       var replace = ["$1", Parse.config.thousandSeparator].join("");
 
       if(v.indexOf(Parse.config.decimalSeparator) > -1) {
@@ -127,7 +129,13 @@ helpers.date = {
 
       if(value === 'undefined') return null;
 
+      if(value instanceof Date) {
+         return value;
+      }
+
       var date = null, replace, regex, a = 0, length = helpers.date.regex.length;
+
+      value = value.toString();
 
       for(a; a < length; a++) {
          regex = helpers.date.regex[a];
@@ -149,6 +157,7 @@ helpers.date = {
    // Transform the date object to format string
    format: function(format, value) {
       var date = helpers.date.parse(value);
+      console.log(date);
 
       if(!date) return false;
 
