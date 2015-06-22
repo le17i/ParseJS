@@ -48,7 +48,6 @@ helpers.date = {
    // Transform the date object to format string
    format: function(format, value) {
       var date = helpers.date.parse(value);
-      console.log(date);
 
       if(!date) return false;
 
