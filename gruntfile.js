@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+   var info = grunt.file.readJSON('package.json');
+
    var sourcesFiles = [
       'src/intro.js',
       'src/core.js',
@@ -16,11 +18,26 @@ module.exports = function(grunt) {
    ];
 
    grunt.initConfig({
-      'pkg': grunt.file.readJSON('package.json'),
+      'pkg': info,
+      'compress': {
+         'main': {
+            'options': {
+               'archive': 'releases/ParseJS-v' + info.version + '.zip'
+            },
+            'files': [
+               {
+                  'dest': '/',
+                  'expand': true,
+                  'filter': 'isFile',
+                  'src': ['bin/*'],
+               }
+            ]
+         }
+      },
       'concat': {
          'dist': {
             'src': sourcesFiles,
-            'dest': 'parse.js'
+            'dest': 'bin/parse.js'
          }
       },
       'http-server': {
@@ -40,11 +57,11 @@ module.exports = function(grunt) {
       'uglify': {
          'options': {
             'sourceMap': true,
-            'sourceMapName': 'parse.map'
+            'sourceMapName': 'bin/parse.map'
          },
          'dist': {
             'files': {
-               'parse.min.js' : ['<%= concat.dist.dest %>']
+               'bin/parse.min.js' : ['<%= concat.dist.dest %>']
             }
          }
       },
@@ -55,6 +72,7 @@ module.exports = function(grunt) {
    });
 
    // Loads the packages
+   grunt.loadNpmTasks('grunt-contrib-compress');
    grunt.loadNpmTasks('grunt-contrib-concat');
    grunt.loadNpmTasks('grunt-contrib-jshint');
    grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -64,7 +82,7 @@ module.exports = function(grunt) {
 
    // Register tasks
    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'karma', 'watch']);
-   grunt.registerTask('dist', ['concat', 'uglify']);
+   grunt.registerTask('dist', ['concat', 'uglify', 'jshint', 'karma', 'compress']);
    grunt.registerTask('tests', ['jshint', 'karma']);
    grunt.registerTask('tests-client', ['http-server']);
 };

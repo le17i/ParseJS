@@ -1,6 +1,6 @@
 {
   "name": "ParseJS",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "A library JS to format numbers and dates.",
   "main": "parse.js",
   "directories": {
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/le17i/ParseJS",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-contrib-compress": "^0.13.0",
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-uglify": "^0.9.1",

@@ -1,18 +1,18 @@
 describe("Date Tests", function() {
    describe("Parse strings to date", function() {
       it("Transform the string (dd/mm/yyyy) in Date Object", function() {
-         var date = parse("10/12/2014").toDate();
-         expect(date).toEqual(new Date("2014", "11", "10"));
+         var date = parse("10/02/2014").toDate();
+         expect(date).toEqual(new Date("2014", "01", "10"));
       });
 
       it("Transform the string (dd-mm-yyyy) in Date Object", function() {
-         var date = parse("10-12-2014").toDate();
-         expect(date).toEqual(new Date("2014", "11", "10"));
+         var date = parse("10-02-2014").toDate();
+         expect(date).toEqual(new Date("2014", "01", "10"));
       });
 
       it("Transform the string (dd.mm.yyyy) in Date Object", function() {
-         var date = parse("10.12.2014").toDate();
-         expect(date).toEqual(new Date("2014", "11", "10"));
+         var date = parse("10.02.2014").toDate();
+         expect(date).toEqual(new Date("2014", "01", "10"));
       });
 
       it("Transform the string (yyyy/mm/dd) in Date Object", function() {
@@ -37,9 +37,14 @@ describe("Date Tests", function() {
    });
 
    describe("Format date to string", function() {
-      it("Format date to dd.mm.yyyy", function() {
-         var date = parse("10/12/2014").formatDate("dd.mm.yyyy");
-         expect(date).toEqual("10.12.2014");
+      it("Format date to dd.mm.yyyy, with day < 10", function() {
+         var date = parse("01/02/2014").formatDate("dd.mm.yyyy");
+         expect(date).toEqual("01.02.2014");
+      });
+
+      it("Format date to dd.mm.yyyy, with month < 10", function() {
+         var date = parse("10/02/2014").formatDate("dd.mm.yyyy");
+         expect(date).toEqual("10.02.2014");
       });
    });
 

@@ -33,8 +33,9 @@ Parse.prototype.toNumber = function() {
 };
 
 Parse.prototype.toString = function(precision) {
-   
+
    var value = helpers.format.precision(this.value, precision);
+
    return (value === null) ? "Invalid value" : helpers.format.thousand(value);
 };
 
@@ -135,7 +136,7 @@ helpers.date = {
 
             replace = (regex.replace.indexOf("-") > -1) ?
                value.replace(regex.test, regex.replace) : parseInt(value.replace(regex.test, regex.replace));
-               
+
             date = new Date(replace);
 
             break;
@@ -151,9 +152,12 @@ helpers.date = {
 
       if(!date) return false;
 
+      var day = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
+      var month = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
+
       var formatDate = format
-         .replace(/dd/gi, date.getDate())
-         .replace(/mm/gi, date.getMonth() + 1)
+         .replace(/dd/gi, day)
+         .replace(/mm/gi, month)
          .replace(/yyyy/gi, date.getFullYear());
 
       return formatDate;
