@@ -1,6 +1,6 @@
 helpers.format = {
    precision: function(value, precision) {
-      if(!value || !precision) return null;
+      if(value === undefined || precision === undefined) return null;
 
       value = value.toString();
 
@@ -10,7 +10,7 @@ helpers.format = {
    },
 
    thousand: function(value) {
-      if(!value) return null;
+      if(value === undefined) return null;
 
       var v = value.toString();
       var replace = ["$1", Parse.config.thousandSeparator].join("");

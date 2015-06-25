@@ -78,7 +78,7 @@ helpers.regex = {
 
 helpers.format = {
    precision: function(value, precision) {
-      if(!value || !precision) return null;
+      if(value === undefined || precision === undefined) return null;
 
       value = value.toString();
 
@@ -88,7 +88,7 @@ helpers.format = {
    },
 
    thousand: function(value) {
-      if(!value) return null;
+      if(value === undefined) return null;
 
       var v = value.toString();
       var replace = ["$1", Parse.config.thousandSeparator].join("");
@@ -127,7 +127,7 @@ helpers.date = {
    // Try convert the value on date object. If failed, return false
    parse: function (value) {
 
-      if(value === 'undefined') return null;
+      if(value === undefined) return null;
 
       if(value instanceof Date) {
          return value;
@@ -150,7 +150,7 @@ helpers.date = {
                replace = parseInt(value.replace(regex.test, regex.replace));
                date = new Date(replace);
             }
-            
+
             break;
          }
       }
@@ -162,7 +162,7 @@ helpers.date = {
    format: function(format, value) {
       var date = helpers.date.parse(value);
 
-      if(!date) return false;
+      if(date === false || date === undefined) return false;
 
       var day = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
       var month = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
