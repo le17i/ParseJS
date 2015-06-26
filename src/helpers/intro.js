@@ -4,5 +4,5 @@
 var helpers = {};
 
 helpers.regex = {
-   thousandsSeparator: /(\d)(?=(\d{3})+(?!\d))/g
+   decimal: /(\d)(?=(\d{3})+(?!\d))/g
 };

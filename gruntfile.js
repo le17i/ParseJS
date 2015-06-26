@@ -11,6 +11,7 @@ module.exports = function(grunt) {
       'src/tocurrency.js',
       'src/todate.js',
       'src/helpers/intro.js',
+      'src/helpers/utils.js',
       'src/helpers/format.js',
       'src/helpers/date.js',
       'src/helpers/number.js',

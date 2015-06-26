@@ -8,3 +8,5 @@
 ;(function(global) {
 
    "use strict";
+
+   var date, replace, regex, counter, length, auxA, auxB;

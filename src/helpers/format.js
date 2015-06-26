@@ -1,30 +1,28 @@
-helpers.format = {
-   precision: function(value, precision) {
-      if(value === undefined || precision === undefined) return null;
+helpers.format = {};
 
-      value = value.toString();
+helpers.format.precision = function(value, precision) {
+   if(value === undefined) return null;
 
-      var v = parseFloat(value).toFixed(precision);
-      v = v.replace(/\./g, ",");
-      return v;
-   },
+   return parseFloat(value.toString())
+      .toFixed(precision || 0)
+      .replace(/\./g, Parse.config.decimalSeparator);
+};
 
-   thousand: function(value) {
-      if(value === undefined) return null;
+helpers.format.thousand = function(value) {
+   if(helpers.utils.isNull(value)) return null;
 
-      var v = value.toString();
-      var replace = ["$1", Parse.config.thousandSeparator].join("");
+   value = value.toString();
+   replace = ["$1", Parse.config.thousandSeparator].join("");
 
-      if(v.indexOf(Parse.config.decimalSeparator) > -1) {
-         var vInt = v.substring(0, v.indexOf(Parse.config.decimalSeparator));
+   if(value.indexOf(Parse.config.decimalSeparator) > -1) {
+      auxA = value.substring(0, value.indexOf(Parse.config.decimalSeparator));
 
-         vInt = vInt.replace(helpers.regex.thousandsSeparator, replace);
-         v = [vInt, v.substring(v.indexOf(Parse.config.decimalSeparator) + 1, v.length)].join(Parse.config.decimalSeparator);
-      }
-      else {
-         v = v.replace(helpers.regex.thousandsSeparator, replace);
-      }
-
-      return v;
+      auxA = auxA.replace(helpers.regex.decimal, replace);
+      value = [auxA, value.substring(value.indexOf(Parse.config.decimalSeparator) + 1, value.length)].join(Parse.config.decimalSeparator);
    }
+   else {
+      value = value.replace(helpers.regex.decimal, replace);
+   }
+
+   return value;
 };

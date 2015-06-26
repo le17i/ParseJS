@@ -1,7 +1,7 @@
 Parse.prototype.toPercent = function(precision) {
 
-   var value = helpers.format.precision(this.value, precision);
-   value = helpers.format.thousand(value);
+   auxA = helpers.format.precision(this.value, precision);
+   auxA = helpers.format.thousand(auxA);
 
-   return (value === null) ? "Invalid value" : [value, "%"].join("");
+   return (auxA === null) ? "Invalid value" : [auxA, "%"].join("");
 };

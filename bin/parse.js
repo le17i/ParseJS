@@ -9,6 +9,8 @@
 
    "use strict";
 
+   var date, replace, regex, counter, length, auxA, auxB;
+
 var Parse = function(value) {
    if(!(this instanceof Parse)) return new Parse(value);
 
@@ -34,25 +36,25 @@ Parse.prototype.toNumber = function() {
 
 Parse.prototype.toString = function(precision) {
 
-   var value = helpers.format.precision(this.value, precision);
+   auxA = helpers.format.precision(this.value, precision);
 
-   return (value === null) ? "Invalid value" : helpers.format.thousand(value);
+   return (auxA === null) ? "Invalid value" : helpers.format.thousand(auxA);
 };
 
 Parse.prototype.toPercent = function(precision) {
 
-   var value = helpers.format.precision(this.value, precision);
-   value = helpers.format.thousand(value);
+   auxA = helpers.format.precision(this.value, precision);
+   auxA = helpers.format.thousand(auxA);
 
-   return (value === null) ? "Invalid value" : [value, "%"].join("");
+   return (auxA === null) ? "Invalid value" : [auxA, "%"].join("");
 };
 
 Parse.prototype.toCurrency = function() {
 
-   var value = helpers.format.precision(this.value, 2);
-   value = helpers.format.thousand(value);
+   auxA = helpers.format.precision(this.value, 2);
+   auxA = helpers.format.thousand(auxA);
 
-   return (value === null) ? "Invalid value" : [Parse.config.currencySymbol, value].join("");
+   return (auxA === null) ? "Invalid value" : [Parse.config.currencySymbol, auxA].join("");
 };
 
 Parse.prototype.toDate = function() {
@@ -73,118 +75,151 @@ Parse.prototype.isDate = function() {
 var helpers = {};
 
 helpers.regex = {
-   thousandsSeparator: /(\d)(?=(\d{3})+(?!\d))/g
+   decimal: /(\d)(?=(\d{3})+(?!\d))/g
 };
 
-helpers.format = {
-   precision: function(value, precision) {
-      if(value === undefined || precision === undefined) return null;
+helpers.utils = {};
 
-      value = value.toString();
+helpers.utils.isArray = function(arg) {
+	return Object.prototype.toString.call(arg) === "[object Array]";
+};
 
-      var v = parseFloat(value).toFixed(precision);
-      v = v.replace(/\./g, ",");
-      return v;
-   },
+helpers.utils.isObject = function(arg) {
+	return Object.prototype.toString.call(arg) === "[object Object]";
+};
 
-   thousand: function(value) {
-      if(value === undefined) return null;
+helpers.utils.isString = function(arg) {
+	return Object.prototype.toString.call(arg) === "[object String]";
+};
 
-      var v = value.toString();
-      var replace = ["$1", Parse.config.thousandSeparator].join("");
+helpers.utils.isDate = function(arg) {
+	return Object.prototype.toString.call(arg) === "[object Date]";
+};
 
-      if(v.indexOf(Parse.config.decimalSeparator) > -1) {
-         var vInt = v.substring(0, v.indexOf(Parse.config.decimalSeparator));
+helpers.utils.isNull = function(arg) {
+	return (arg === undefined || arg === null);
+};
 
-         vInt = vInt.replace(helpers.regex.thousandsSeparator, replace);
-         v = [vInt, v.substring(v.indexOf(Parse.config.decimalSeparator) + 1, v.length)].join(Parse.config.decimalSeparator);
-      }
-      else {
-         v = v.replace(helpers.regex.thousandsSeparator, replace);
-      }
+helpers.utils.each = function(array, callback) {
 
-      return v;
+	if(helpers.utils.isArray(array)) {
+		for(counter = 0, length = array.length; counter < length; counter++) {
+			if(callback(array[counter], counter)) break;
+		}
+	}
+	else if(helpers.utils.isObject(array)) {
+		for(counter in array) {
+			if(callback(array[counter], counter)) break;
+		}
+	}
+};
+
+helpers.format = {};
+
+helpers.format.precision = function(value, precision) {
+   if(value === undefined) return null;
+
+   return parseFloat(value.toString())
+      .toFixed(precision || 0)
+      .replace(/\./g, Parse.config.decimalSeparator);
+};
+
+helpers.format.thousand = function(value) {
+   if(helpers.utils.isNull(value)) return null;
+
+   value = value.toString();
+   replace = ["$1", Parse.config.thousandSeparator].join("");
+
+   if(value.indexOf(Parse.config.decimalSeparator) > -1) {
+      auxA = value.substring(0, value.indexOf(Parse.config.decimalSeparator));
+
+      auxA = auxA.replace(helpers.regex.decimal, replace);
+      value = [auxA, value.substring(value.indexOf(Parse.config.decimalSeparator) + 1, value.length)].join(Parse.config.decimalSeparator);
    }
+   else {
+      value = value.replace(helpers.regex.decimal, replace);
+   }
+
+   return value;
 };
 
-helpers.date = {
-   // List of date formats
-   regex: [
-      {
-         test: /(\d{2})[-|\/|\.](\d{2})[-|\/|\.](\d{4})/g,
-         replace: '$3-$2-$1'
-      },
-      {
-         test:/(\d{4})[-|\/|\.](\d{2})[-|\/|\.](\d{2})/g,
-         replace: '$1-$2-$3'
-      },
-      {
-         test:/\/Date\((-?\d+)\)\//g,
-         replace: '$1'
-      }
-   ],
+helpers.date = {};
 
-   // Try convert the value on date object. If failed, return false
-   parse: function (value) {
+// List of date formats
+helpers.date.regex = [
+   {
+      test: /(\d{2})[-|\/|\.](\d{2})[-|\/|\.](\d{4})/g,
+      replace: '$3-$2-$1'
+   },
+   {
+      test:/(\d{4})[-|\/|\.](\d{2})[-|\/|\.](\d{2})/g,
+      replace: '$1-$2-$3'
+   },
+   {
+      test:/\/Date\((-?\d+)\)\//g,
+      replace: '$1'
+   }
+];
 
-      if(value === undefined) return null;
+// Try convert the value on date object. If failed, return false
+helpers.date.parse = function (value) {
 
-      if(value instanceof Date) {
-         return value;
-      }
+   if(value === undefined) return null;
 
-      var date = null, replace, regex, a = 0, length = helpers.date.regex.length;
+   if(helpers.utils.isDate(value)) {
+      return value;
+   }
 
-      value = value.toString();
+   value = value.toString();
+   date = null;
 
-      for(a; a < length; a++) {
-         regex = helpers.date.regex[a];
+   helpers.utils.each(helpers.date.regex, function(item, index) {
+      if(value.match(item.test)) {
 
-         if(value.match(regex.test)) {
-
-            if(regex.replace.indexOf("-") > -1){
-               replace = value.replace(regex.test, regex.replace).split("-");
-               date = new Date(parseInt(replace[0]), parseInt(--replace[1]), parseInt(replace[2]));
-            }
-            else {
-               replace = parseInt(value.replace(regex.test, regex.replace));
-               date = new Date(replace);
-            }
-
-            break;
+         if(item.replace.indexOf("-") > -1){
+            replace = value.replace(item.test, item.replace).split("-");
+            date = new Date(parseInt(replace[0]), parseInt(--replace[1]), parseInt(replace[2]));
          }
+         else {
+            replace = parseInt(value.replace(item.test, item.replace));
+            date = new Date(replace);
+         }
+
+         return true;
       }
+   });
 
-      return date;
-   },
-
-   // Transform the date object to format string
-   format: function(format, value) {
-      var date = helpers.date.parse(value);
-
-      if(date === false || date === undefined) return false;
-
-      var day = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
-      var month = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
-
-      var formatDate = format
-         .replace(/dd/gi, day)
-         .replace(/mm/gi, month)
-         .replace(/yyyy/gi, date.getFullYear());
-
-      return formatDate;
-   }
+   return date;
 };
 
-helpers.number = {
-   parse: function(value) {
-      var number = value
-         .replace(/\./g, "")
-         .replace(/\,/g, ".")
-         .replace(/[a-z]|\s|(\/|\*|\-|\+|\,|\%|\$|\#|\@|\!|\(|\)|\_|\?)/gi, "");
+// Transform the date object to format string
+helpers.date.format = function(format, value) {
+   var date = helpers.date.parse(value);
 
-      return parseFloat(number);
-   }
+   if(date === false || date === undefined) return null;
+
+   var day = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
+   var month = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
+
+   var formatDate = format
+      .replace(/dd/gi, day)
+      .replace(/mm/gi, month)
+      .replace(/yyyy/gi, date.getFullYear());
+
+   return formatDate;
+};
+
+helpers.number = {};
+
+helpers.number.parse = function(value) {
+   if(helpers.utils.isNull(value)) return null;
+   
+   value = value
+      .replace(/\./g, "")
+      .replace(/\,/g, ".")
+      .replace(/[a-z]|\s|(\/|\*|\-|\+|\,|\%|\$|\#|\@|\!|\(|\)|\_|\?)/gi, "");
+
+   return parseFloat(value);
 };
 
 /**

@@ -1,10 +1,12 @@
-helpers.number = {
-   parse: function(value) {
-      var number = value
-         .replace(/\./g, "")
-         .replace(/\,/g, ".")
-         .replace(/[a-z]|\s|(\/|\*|\-|\+|\,|\%|\$|\#|\@|\!|\(|\)|\_|\?)/gi, "");
+helpers.number = {};
 
-      return parseFloat(number);
-   }
+helpers.number.parse = function(value) {
+   if(helpers.utils.isNull(value)) return null;
+   
+   value = value
+      .replace(/\./g, "")
+      .replace(/\,/g, ".")
+      .replace(/[a-z]|\s|(\/|\*|\-|\+|\,|\%|\$|\#|\@|\!|\(|\)|\_|\?)/gi, "");
+
+   return parseFloat(value);
 };

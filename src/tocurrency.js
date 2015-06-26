@@ -1,7 +1,7 @@
 Parse.prototype.toCurrency = function() {
 
-   var value = helpers.format.precision(this.value, 2);
-   value = helpers.format.thousand(value);
+   auxA = helpers.format.precision(this.value, 2);
+   auxA = helpers.format.thousand(auxA);
 
-   return (value === null) ? "Invalid value" : [Parse.config.currencySymbol, value].join("");
+   return (auxA === null) ? "Invalid value" : [Parse.config.currencySymbol, auxA].join("");
 };
