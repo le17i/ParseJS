@@ -49,17 +49,17 @@
 
    // Transform the date object to format string
    helpers.date.format = function(format, value) {
-      var date = helpers.date.parse(value);
+      date = helpers.date.parse(value);
 
       if(date === false || date === undefined) return null;
 
-      var day = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
-      var month = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
+      auxA = date.getDate().toString().replace(/(?=(^\d{1}$))/g, "0");
+      auxB = (date.getMonth() + 1).toString().replace(/(?=(^\d{1}$))/g, "0");
 
-      var formatDate = format
-         .replace(/dd/gi, day)
-         .replace(/mm/gi, month)
+      date = format
+         .replace(/dd/gi, auxA)
+         .replace(/mm/gi, auxB)
          .replace(/yyyy/gi, date.getFullYear());
 
-      return formatDate;
+      return date;
    };
