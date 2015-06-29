@@ -1,8 +1,8 @@
-/**
-*  Helpers Functions
-*/
-var helpers = {};
+   /**
+   *  Helpers Functions
+   */
+   var helpers = {};
 
-helpers.regex = {
-   decimal: /(\d)(?=(\d{3})+(?!\d))/g
-};
+   helpers.regex = {
+      decimal: /(\d)(?=(\d{3})+(?!\d))/g
+   };
