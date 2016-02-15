@@ -9,7 +9,7 @@ parse(10.000).toCurrency();
 parse(10.000).toPercent(2);
 
 // Parse to number string with two decimal places. Returns '10,00'
-parse(10.000).toNumber(2);
+parse(10.000).toNumber();
 
 // Parse to date object. Returns Wed Dec 10 2014
 parse("10/12/2014").toDate();
