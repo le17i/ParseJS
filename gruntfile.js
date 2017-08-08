@@ -19,25 +19,10 @@ module.exports = function(grunt) {
 
    grunt.initConfig({
       'pkg': info,
-      'compress': {
-         'main': {
-            'options': {
-               'archive': 'releases/ParseJS-v' + info.version + '.zip'
-            },
-            'files': [
-               {
-                  'dest': '/',
-                  'expand': true,
-                  'filter': 'isFile',
-                  'src': ['bin/*'],
-               }
-            ]
-         }
-      },
       'concat': {
          'dist': {
             'src': sourcesFiles,
-            'dest': 'bin/parse.js'
+            'dest': 'parse.js'
          }
       },
       'http-server': {
@@ -56,12 +41,11 @@ module.exports = function(grunt) {
       },
       'uglify': {
          'options': {
-            'sourceMap': true,
-            'sourceMapName': 'bin/parse.map'
+            'sourceMap': false,
          },
          'dist': {
             'files': {
-               'bin/parse.min.js' : ['<%= concat.dist.dest %>']
+               'parse.min.js' : ['<%= concat.dist.dest %>']
             }
          }
       },
@@ -82,7 +66,7 @@ module.exports = function(grunt) {
 
    // Register tasks
    grunt.registerTask('default', ['concat', 'uglify', 'jshint', 'karma', 'watch']);
-   grunt.registerTask('dist', ['concat', 'uglify', 'jshint', 'karma', 'compress']);
+   grunt.registerTask('dist', ['concat', 'uglify', 'jshint', 'karma']);
    grunt.registerTask('tests', ['jshint', 'karma']);
    grunt.registerTask('tests-client', ['http-server']);
 };
