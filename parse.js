@@ -23,7 +23,7 @@ Parse.config = {
 };
 
 Parse.set = function(key, value) {
-   if(!key || !value || !parse.config.hasOwnPropery(key)) return;
+   if(!key || !value || !(key in parse.config)) return;
 
    parse.config[key] = value;
 };
