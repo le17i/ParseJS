@@ -1,7 +1,10 @@
-Parse.prototype.toPercent = function(precision) {
+import precisionNumber from './helpers/number/precision'
+import formatNumber from './helpers/number/format'
 
-   var value = helpers.format.precision(this.value, precision);
-   value = helpers.format.thousand(value);
+export default function(precision) {
 
-   return (value === null) ? "Invalid value" : [value, "%"].join("");
+  var value = precisionNumber(this.value, precision)
+  value = formatNumber(value)
+
+  return (value === null) ? 'Invalid value' : `${value}%`
 };
