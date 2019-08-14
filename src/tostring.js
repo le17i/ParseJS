@@ -1,6 +1,7 @@
-Parse.prototype.toString = function(precision) {
+import precision from './helpers/string/precision'
 
-   var value = helpers.format.precision(this.value, precision);
+export default function (value) {
+  const v = precision(this.value, value)
 
-   return (value === null) ? "Invalid value" : helpers.format.thousand(value);
-};
+  return (v === null) ? 'Invalid value' : helpers.format.thousand(v)
+}

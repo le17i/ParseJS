@@ -1,7 +1,10 @@
+import precisionNumber from './helpers/number/precision'
+import formatNumber from './helpers/number/format'
+
 Parse.prototype.toCurrency = function() {
 
-   var value = helpers.format.precision(this.value, 2);
-   value = helpers.format.thousand(value);
+  var value = precisionNumber(this.value, 2);
+  value = formatNumber(value);
 
-   return (value === null) ? "Invalid value" : [Parse.config.currencySymbol, value].join("");
+  return (value === null) ? 'Invalid value' : `R$ ${value}`;
 };
