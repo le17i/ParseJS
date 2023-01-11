@@ -36,7 +36,7 @@
     "grunt-http-server": "^1.4.0",
     "grunt-karma": "^0.11.0",
     "jasmine-core": "^2.3.4",
-    "karma": "^0.12.36",
+    "karma": "^6.4.1",
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.2.0",
     "phantomjs": "^1.9.17"
